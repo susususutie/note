@@ -14,17 +14,27 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - run: echo "name:$name rul:$url"
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v3
+      - name: Install Node.js
+        uses: actions/setup-node@v3
         with:
           node-version-file: .nvmrc
-          cache: pnpm
+          cache: npm
+      # - name: Install pnpm
+      #   uses: pnpm/action-setup@v2
+      #   id: pnpm-install
+      #   with:
+      #     version: 8
+      #     run_install: false
+      - name: Enable Corepack
+        run: corepack enable
       - run: node -v
       - run: pnpm -v
-      # - run: npm ci
+      - name: Install dependencies
+        run: pnpm install
       - name: Build
         run: pnpm run docs:build
       - uses: actions/configure-pages@v2
