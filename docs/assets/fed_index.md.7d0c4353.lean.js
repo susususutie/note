@@ -1,1 +1,0 @@
-import{_ as e,c as a,o as t,V as n}from"./chunks/framework.a5fc2cbc.js";const p=JSON.parse('{"title":"TODO","description":"","frontmatter":{},"headers":[],"relativePath":"fed/index.md","lastUpdated":1680506384000}'),o={name:"fed/index.md"},d=n("",4),s=[d];function r(c,l,_,i,f,m){return t(),a("div",null,s)}const u=e(o,[["render",r]]);export{p as __pageData,u as default};

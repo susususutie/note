@@ -1,1 +1,0 @@
-import{_ as e,c as t,o as a,V as i}from"./chunks/framework.a5fc2cbc.js";const f=JSON.parse('{"title":"NLP","description":"","frontmatter":{},"headers":[],"relativePath":"ai/index.md","lastUpdated":1680506384000}'),r={name:"ai/index.md"},o=i("",15),n=[o];function l(p,s,c,u,h,d){return a(),t("div",null,n)}const q=e(r,[["render",l]]);export{f as __pageData,q as default};

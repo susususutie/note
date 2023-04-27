@@ -1,1 +1,0 @@
-import{_ as a,c as e,o as t,V as r}from"./chunks/framework.a5fc2cbc.js";const f=JSON.parse('{"title":"WSL(TODO)","description":"","frontmatter":{},"headers":[],"relativePath":"wsl/setup.md","lastUpdated":1677227335000}'),o={name:"wsl/setup.md"},s=r("",6),l=[s];function n(i,c,h,d,_,p){return t(),e("div",null,l)}const m=a(o,[["render",n]]);export{f as __pageData,m as default};

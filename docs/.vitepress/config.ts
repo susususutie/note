@@ -73,8 +73,8 @@ let sidebar: Record<string, { text: string; link: string }[]> = {};
 })();
 
 export default defineConfig({
-  base: "/vitepress-note/",
-  outDir: "../docs",
+  base: "/note/",
+  // outDir: "../docs",
 
   lang: "zh-CN",
   title: "VitePress-Note",
