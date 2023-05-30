@@ -2,6 +2,10 @@
 
 在开发某些功能时, 需要在本地服务器启用 Https 协议. 解决方案是在本地服务器中使用自签证书. 同时, 为了解决浏览器信任问题, 我们需要将自签证书使用的 CA 证书添加到系统或浏览器的可信 CA 证书中. 本文使用 `mkcert` 完成上述流程.
 
+::: warning
+注意: 本地启用过https后, 谷歌浏览器会自动将http链接转到https, 这导致本地其他项目进行http开发时, 浏览器无法打开http://localhost页面, 始终更改为https://localhost, 解决方法是手动更改chrome配置, 禁止其自动更改为https, 其他浏览器也可能有类似问题.
+:::
+
 ## 安装 mkcert
 
 Windows 中可以使用 Chocolatey 安装 mkcert, 也可以在[GitHub](https://github.com/FiloSottile/mkcert/releases)上下载安装包.
@@ -82,3 +86,5 @@ mkcert localhost 127.0.0.1 ::1
 - [掘金:本地 https 服务搭建指南](https://juejin.cn/post/6844904116481687565)
 - [简书:本地 https 快速解决方案——mkcert](https://www.jianshu.com/p/7cb5c2cffaaa)
 - [GitHub:mkcert](https://github.com/FiloSottile/mkcert)
+- [禁止chrome浏览器http自动转成https](https://zhuanlan.zhihu.com/p/138518884)
+
