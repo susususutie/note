@@ -1,4 +1,3 @@
-import { defineConfig } from "vitepress";
 // import { version } from "../../package.json";
 import { open, opendir } from "node:fs/promises";
 import { exit, env } from "node:process";
@@ -18,11 +17,7 @@ let sidebar: Record<string, { text: string; link: string }[]> = {};
       const dirName = dirent.name;
       // 1. dir
       // 2. not .xx
-      if (
-        dirent.isDirectory() &&
-        !dirName.startsWith(".") &&
-        dirName !== "public"
-      ) {
+      if (dirent.isDirectory() && !dirName.startsWith(".") && dirName !== "public") {
         // 部分还在进行中的文档只在开发时展示
         if (env.NODE_ENV === "production" && dirName.startsWith("__DEV__")) {
           continue;
@@ -38,18 +33,13 @@ let sidebar: Record<string, { text: string; link: string }[]> = {};
         const cDir = await opendir(new URL(`../${dirName}`, import.meta.url));
         for await (const cDirName of cDir) {
           if (cDirName.isFile() && cDirName.name.endsWith(".md")) {
-            if (
-              env.NODE_ENV === "production" &&
-              cDirName.name.startsWith("__DEV__")
-            ) {
-              continue;
+            if (env.NODE_ENV === "production" && cDirName.name.startsWith("__DEV__")) {
+              // continue;
             }
 
             const cname = cDirName.name.split(".md")[0];
 
-            const file = await open(
-              new URL(`../${dirName}/${cDirName.name}`, import.meta.url)
-            );
+            const file = await open(new URL(`../${dirName}/${cDirName.name}`, import.meta.url));
             const contents = await file.readFile({ encoding: "utf8" });
             const lines = contents.split(/\n+/);
             const title = lines[0].split(/#\s+/)[1];
@@ -72,7 +62,7 @@ let sidebar: Record<string, { text: string; link: string }[]> = {};
   // exit(1);
 })();
 
-export default defineConfig({
+export default {
   base: "/note/",
   // outDir: "../docs",
 
@@ -83,7 +73,10 @@ export default defineConfig({
   lastUpdated: true,
   cleanUrls: false,
 
-  head: [["meta", { name: "theme-color", content: "#3c8772" }]],
+  head: [
+    ["meta", { name: "theme-color", content: "#3c8772" }],
+    ["link", { rel: "icon", href: "/note/favicon.ico" }],
+  ],
 
   markdown: {
     headers: {
@@ -95,18 +88,22 @@ export default defineConfig({
     search: {
       provider: "local",
       options: {
-        translations: {
-          button: {
-            buttonText: "搜索文档",
-            buttonAriaLabel: "搜索文档",
-          },
-          modal: {
-            noResultsText: "无法找到相关结果",
-            resetButtonTitle: "清除查询条件",
-            footer: {
-              selectText: "选择",
-              navigateText: "切换",
-              closeText: "关闭搜索框",
+        locales: {
+          zh: {
+            translations: {
+              button: {
+                buttonText: "搜索文档",
+                buttonAriaLabel: "搜索文档",
+              },
+              modal: {
+                noResultsText: "无法找到相关结果",
+                resetButtonTitle: "清除查询条件",
+                footer: {
+                  selectText: "选择",
+                  navigateText: "切换",
+                  closeText: "关闭搜索框",
+                },
+              },
             },
           },
         },
@@ -133,8 +130,7 @@ export default defineConfig({
     sidebarMenuLabel: "菜单",
     returnToTopLabel: "回到顶部",
     editLink: {
-      pattern:
-        "https://github.com/susususutie/note/edit/main/docs/:path",
+      pattern: "https://github.com/susususutie/note/edit/main/docs/:path",
       text: "在 GitHub 上编辑",
     },
     footer: {
@@ -147,4 +143,4 @@ export default defineConfig({
       next: "下一篇",
     },
   },
-});
+};
