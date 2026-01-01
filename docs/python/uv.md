@@ -40,6 +40,12 @@ uv add pkg          # 添加依赖
 uv remove pkg       # 删除依赖
 ```
 
+同步依赖：
+
+```bash
+uv sync             # 安装 uv.lock 文件中的所有依赖
+```
+
 运行项目：
 
 ```bash
