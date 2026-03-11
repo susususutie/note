@@ -5,7 +5,7 @@ OpenClaw 是一个开源的 AI 助手框架，支持多种渠道（QQ、Telegram
 ## 主要特性
 
 - **多渠道支持**: QQ、Telegram、Discord、Signal、WhatsApp、飞书等
-- ** MCP 协议**: 支持 Model Context Protocol 扩展
+- **MCP 协议**: 支持 Model Context Protocol 扩展
 - **多模态**: 支持语音（TTS/STT）、图像、文件处理
 - **自托管**: 完全可控的数据和隐私
 
