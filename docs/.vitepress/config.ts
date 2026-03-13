@@ -1,6 +1,6 @@
 // import { version } from "../../package.json";
-import { open, opendir } from "node:fs/promises";
-import { exit, env } from "node:process";
+import { opendir } from "node:fs/promises";
+import { env, exit } from "node:process";
 import { URL } from "node:url";
 
 let nav: { text: string; activeMatch: string; link: string }[] = [];
@@ -33,22 +33,20 @@ let sidebar: Record<string, { text: string; link: string }[]> = {};
         const cDir = await opendir(new URL(`../${dirName}`, import.meta.url));
         for await (const cDirName of cDir) {
           if (cDirName.isFile() && cDirName.name.endsWith(".md")) {
-            if (env.NODE_ENV === "production" && cDirName.name.startsWith("__DEV__")) {
-              // continue;
-            }
-
-            const cname = cDirName.name.split(".md")[0];
-
             const file = await open(new URL(`../${dirName}/${cDirName.name}`, import.meta.url));
-            const contents = await file.readFile({ encoding: "utf8" });
-            const lines = contents.split(/\n+/);
-            const title = lines[0].split(/#\s+/)[1];
+            try {
+              const contents = await file.readFile({ encoding: "utf8" });
+              const lines = contents.split(/\n+/);
+              const title = lines[0].split(/#\s+/)[1];
+              const cname = cDirName.name.replace(/\.md$/, "");
 
-            sidebarArr.push({
-              text: title,
-              link: cname === "index" ? `/${dirName}/` : `/${dirName}/${cname}`,
-            });
-            file.close();
+              sidebarArr.push({
+                text: title,
+                link: cname === "index" ? `/${dirName}/` : `/${dirName}/${cname}`,
+              });
+            } finally {
+              await file.close();
+            }
           }
         }
 
@@ -59,7 +57,6 @@ let sidebar: Record<string, { text: string; link: string }[]> = {};
     console.error(err);
     exit(1);
   }
-  // exit(1);
 })();
 
 export default {
