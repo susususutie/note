@@ -15,7 +15,7 @@
     "prepare": "vp config"
   },
   "devDependencies": {
-    "@types/node": "^20.10.0",
+    "@types/node": "24.1.0",
     "vite-plus": "catalog:",
     "vitepress": "^1.3.1"
   },
