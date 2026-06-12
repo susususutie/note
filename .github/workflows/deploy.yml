@@ -19,23 +19,22 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Install Node.js
-        uses: actions/setup-node@v4
+      # 使用 setup-vp 替代 setup-node + corepack
+      - name: Setup Vite+
+        uses: voidzero-dev/setup-vp@v1
         with:
-          node-version-file: .nvmrc
+          node-version-file: .node-version
+          cache: true
 
-      - name: Enable Corepack
-        run: corepack enable
-
+      - run: vp --version
       - run: node -v
 
-      - run: pnpm -v
-
       - name: Install dependencies
-        run: pnpm install
+        run: vp install
 
       - name: Build
-        run: pnpm run docs:build
+        run: vp run docs:build
+
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
