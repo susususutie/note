@@ -70,7 +70,7 @@ uv python uninstall       # 卸载 Python 版本
 uv self update
 ```
 
-如遇到 `` error: GitHub API rate limit exceeded. Please provide a GitHub token via the `--token` option. ``错误，使用 GitHub Token 更新：
+如遇到 ``error: GitHub API rate limit exceeded. Please provide a GitHub token via the `--token` option.``错误，使用 GitHub Token 更新：
 
 ```bash
 uv self update --token <github-token>

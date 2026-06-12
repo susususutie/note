@@ -4,17 +4,15 @@
 
 本文旨在通过对比Javascript与Python的语法, 向前端开发者介绍Python, 帮助前端开发者入门Python.
 
-
 ## 数据类型
-
 
 ### 基础数据类型
 
-number BigInt String Boolean Null Undefined Symbol 
+number BigInt String Boolean Null Undefined Symbol
 
-| Python    | Javascript     |
-| ---       | ---            |
-| float     | Number         |
+| Python | Javascript |
+| ------ | ---------- |
+| float  | Number     |
 
 ### 复杂数据类型
 
@@ -22,7 +20,6 @@ Array Object Function Set Map WeakSet WeakMap Tuple
 
 dict vs object
 Tuple vs Array,Object
-
 
 ## 运算
 
@@ -42,10 +39,6 @@ Tuple vs Array,Object
 
 ### 循环与判断
 
-
 ## 变量与常量
 
 ## 基础语法
-
-
-

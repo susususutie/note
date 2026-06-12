@@ -113,9 +113,7 @@ export default {
     nav,
     sidebar,
 
-    socialLinks: [
-      { icon: "github", link: "https://github.com/susususutie/note" },
-    ],
+    socialLinks: [{ icon: "github", link: "https://github.com/susususutie/note" }],
     outlineTitle: "文档目录",
     outline: [2, 3],
 

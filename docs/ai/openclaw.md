@@ -64,9 +64,9 @@ export default {
       handler: async (args) => {
         // 执行逻辑
         return result;
-      }
-    }
-  ]
+      },
+    },
+  ],
 };
 ```
 

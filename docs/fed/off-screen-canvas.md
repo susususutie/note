@@ -85,9 +85,7 @@ self.onmessage = function (event) {
 
 ```js
 // main.js
-const offscreen = document
-  .getElementById("canvas")
-  .transferControlToOffscreen();
+const offscreen = document.getElementById("canvas").transferControlToOffscreen();
 worker.postMessage({ canvas: offscreen }, [offscreen]);
 
 // worker.js
