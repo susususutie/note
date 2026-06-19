@@ -1,66 +1,63 @@
 // import { version } from "../../package.json";
 import { open, opendir } from "node:fs/promises";
-import { exit, env } from "node:process";
+import { env } from "node:process";
 import { URL } from "node:url";
 
-let nav: { text: string; activeMatch: string; link: string }[] = [];
-let sidebar: Record<string, { text: string; link: string }[]> = {};
+type NavItem = { text: string; activeMatch: string; link: string };
+type SidebarItem = { text: string; link: string };
 
-/**
- * 自动生成 nav 和 sidebar
- * 文件夹或md文件以'__DEV__'开头时, 仅在开发时展示, 不能有__DEV__index.md否则默认导航会找不到首页
- */
-(async () => {
-  try {
-    const dir = await opendir(new URL("../", import.meta.url));
-    for await (const dirent of dir) {
-      const dirName = dirent.name;
-      // 1. dir
-      // 2. not .xx
-      if (dirent.isDirectory() && !dirName.startsWith(".") && dirName !== "public") {
-        // 部分还在进行中的文档只在开发时展示
-        if (env.NODE_ENV === "production" && dirName.startsWith("__DEV__")) {
-          continue;
-        }
+async function generateNavAndSidebar() {
+  const nav: NavItem[] = [];
+  const sidebar: Record<string, SidebarItem[]> = {};
 
-        nav.push({
-          text: dirName.toUpperCase(),
-          activeMatch: `/${dirName}/`,
-          link: `/${dirName}/`,
-        });
-
-        let sidebarArr: { text: string; link: string }[] = [];
-        const cDir = await opendir(new URL(`../${dirName}`, import.meta.url));
-        for await (const cDirName of cDir) {
-          if (cDirName.isFile() && cDirName.name.endsWith(".md")) {
-            if (env.NODE_ENV === "production" && cDirName.name.startsWith("__DEV__")) {
-              // continue;
-            }
-
-            const cname = cDirName.name.split(".md")[0];
-
-            const file = await open(new URL(`../${dirName}/${cDirName.name}`, import.meta.url));
-            const contents = await file.readFile({ encoding: "utf8" });
-            const lines = contents.split(/\n+/);
-            const title = lines[0].split(/#\s+/)[1];
-
-            sidebarArr.push({
-              text: title,
-              link: cname === "index" ? `/${dirName}/` : `/${dirName}/${cname}`,
-            });
-            file.close();
-          }
-        }
-
-        sidebar[`/${dirName}/`] = sidebarArr;
+  const dir = await opendir(new URL("../", import.meta.url));
+  for await (const dirent of dir) {
+    const dirName = dirent.name;
+    // 1. dir
+    // 2. not .xx
+    if (dirent.isDirectory() && !dirName.startsWith(".") && dirName !== "public") {
+      // 部分还在进行中的文档只在开发时展示
+      if (env.NODE_ENV === "production" && dirName.startsWith("__DEV__")) {
+        continue;
       }
+
+      nav.push({
+        text: dirName.toUpperCase(),
+        activeMatch: `/${dirName}/`,
+        link: `/${dirName}/`,
+      });
+
+      const sidebarArr: SidebarItem[] = [];
+      const cDir = await opendir(new URL(`../${dirName}`, import.meta.url));
+      for await (const cDirName of cDir) {
+        if (cDirName.isFile() && cDirName.name.endsWith(".md")) {
+          if (env.NODE_ENV === "production" && cDirName.name.startsWith("__DEV__")) {
+            continue;
+          }
+
+          const cname = cDirName.name.split(".md")[0];
+
+          const file = await open(new URL(`../${dirName}/${cDirName.name}`, import.meta.url));
+          const contents = await file.readFile({ encoding: "utf8" });
+          const lines = contents.split(/\n+/);
+          const title = lines[0].split(/#\s+/)[1];
+
+          sidebarArr.push({
+            text: title,
+            link: cname === "index" ? `/${dirName}/` : `/${dirName}/${cname}`,
+          });
+          await file.close();
+        }
+      }
+
+      sidebar[`/${dirName}/`] = sidebarArr;
     }
-  } catch (err) {
-    console.error(err);
-    exit(1);
   }
-  // exit(1);
-})();
+
+  return { nav, sidebar };
+}
+
+const { nav, sidebar } = await generateNavAndSidebar();
 
 export default {
   base: "/note/",
